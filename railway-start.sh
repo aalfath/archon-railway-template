@@ -127,9 +127,18 @@ SQL
     code=$(curl -sS -o /tmp/archon-signup.json -w '%{http_code}' -X POST \
       "http://127.0.0.1:$SETUP_PORT/api/auth/sign-up/email" \
       -H 'Content-Type: application/json' -H "Origin: http://127.0.0.1:$SETUP_PORT" --data-binary "$body")
-    [ "$code" = "200" ] || { head -c 400 /tmp/archon-signup.json >&2; echo >&2; die "creating the owner account failed (HTTP $code)"; }
-    log "owner account created for $ARCHON_ADMIN_EMAIL"
-  else
+    if [ "$code" = "200" ]; then
+      log "owner account created for $ARCHON_ADMIN_EMAIL"
+    else
+      exists=$(psql_q -tA <<'SQL'
+select count(*) from remote_agent_auth_user where lower(email) = lower(:'email');
+SQL
+)
+      # Another deploy may have created it a moment ago; anything else is a real failure.
+      [ "$exists" != "0" ] || { head -c 400 /tmp/archon-signup.json >&2; echo >&2; die "creating the owner account failed (HTTP $code)"; }
+    fi
+  fi
+  if [ "$exists" != "0" ]; then
     # Existing account: apply the current ARCHON_ADMIN_PASSWORD and sign out its old sessions.
     local hash
     hash=$(cd /app/packages/server && bun -e 'import { hashPassword } from "better-auth/crypto"; process.stdout.write(await hashPassword(process.env.ARCHON_ADMIN_PASSWORD));')
