@@ -7,6 +7,7 @@ Each entry is one version of this template. Breaking changes come first. Railway
 
 - First release: Archon 0.14.0 (`ghcr.io/coleam00/archon:0.14.0@sha256:2e63db617c76fa4ab8c86f20b32815993473d42609f56236a79ede3b23aaefa1`)
   with Railway Postgres.
+- README: Deploy on Railway button for the published template `archon-2`.
 - Archon's own login is on; the owner account is created on first boot from `ARCHON_ADMIN_EMAIL` and the
   generated `ARCHON_ADMIN_PASSWORD`. Signup stays closed.
 - The trusted proxy identity header is renamed to a random value, so a client can't skip the login by

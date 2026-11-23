@@ -1,5 +1,7 @@
 # Archon on Railway
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/archon-2?utm_medium=integration&utm_source=button&utm_campaign=archon)
+
 A one-click Railway template for [Archon](https://github.com/coleam00/Archon), the open-source harness
 builder for AI coding: it runs Claude Code, Codex and Pi agents through repeatable YAML workflows (plan,
 implement, validate, review, open a PR), with a web UI for chats, runs and approvals.
