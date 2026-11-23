@@ -31,6 +31,10 @@ export HOST="${HOST:-0.0.0.0}"
 # conversations low by default. Raise it with a MAX_CONCURRENT_CONVERSATIONS variable on bigger plans.
 export MAX_CONCURRENT_CONVERSATIONS="${MAX_CONCURRENT_CONVERSATIONS:-2}"
 
+# Archon's default coding agent. Without it (and with no defaultAssistant in config.yaml) new chats fail
+# with "No default provider". Change it in Settings or with DEFAULT_AI_ASSISTANT=codex|pi|copilot.
+export DEFAULT_AI_ASSISTANT="${DEFAULT_AI_ASSISTANT:-claude}"
+
 # Claude: one variable takes either an Anthropic API key (sk-ant-api...) or a Claude subscription
 # token from `claude setup-token` (sk-ant-oat...).
 if [ -n "${CLAUDE_API_KEY:-}" ] && [ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then
